@@ -1,6 +1,7 @@
 package com.wsw.community.controller;
 
 import com.wsw.community.dto.AccessTokenDTO;
+import com.wsw.community.dto.GithubUser;
 import com.wsw.community.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,11 @@ public class AuthorizeController {
         accessTokenDTO.setCode(code);
         accessTokenDTO.setRedirect_uri("http://localhost:8887/callback");
         accessTokenDTO.setState(state);
-        githubProvider.getAccessToken(accessTokenDTO);
+        String accessToken = githubProvider.getAccessToken(accessTokenDTO);
+        GithubUser user = githubProvider.getUser(accessToken);
+        System.out.println(user.getName());
+        System.out.println(user.getId());
+        System.out.println(user.getBio());
         return "index";
     }
 }
